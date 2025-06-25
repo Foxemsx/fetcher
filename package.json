@@ -1,0 +1,20 @@
+{
+  "name": "roblox-job-fetcher-vercel",
+  "version": "1.0.0",
+  "description": "A Vercel cron job to fetch Roblox server jobs and update a JSONBin.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "roblox",
+    "vercel",
+    "cron",
+    "serverless",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
