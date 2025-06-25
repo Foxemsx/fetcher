@@ -1,0 +1,8 @@
+# Ignore Node.js modules folder
+node_modules
+
+# Ignore environment variables file
+.env
+
+# Ignore Vercel deployment folder
+.vercel
