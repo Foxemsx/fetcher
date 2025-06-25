@@ -1,4 +1,4 @@
-// File: api/fetch-jobs.js
+// File: api/server-fetch.js
 
 const fetch = require('node-fetch');
 
@@ -10,8 +10,10 @@ const JSONBIN_API_KEY = process.env.JSONBIN_API_KEY;
 const JSONBIN_BIN_ID = process.env.JSONBIN_BIN_ID;
 
 // This is the main serverless function Vercel will run
-export default async function handler(request, response) {
+// Note: Changed from 'export default' to 'module.exports' for better Vercel/Node.js compatibility
+module.exports = async function handler(request, response) {
     if (!ROBLOX_COOKIE || !JSONBIN_API_KEY || !JSONBIN_BIN_ID) {
+        console.error("Server configuration error: Missing one or more required environment variables.");
         return response.status(500).send("Server configuration error: Missing environment variables.");
     }
     
@@ -29,7 +31,7 @@ export default async function handler(request, response) {
         }
 
         // Send a success response
-        response.status(200).send(`Cycle complete. Found ${serverList.length} suitable servers.`);
+        response.status(200).send(`Cycle complete. Found ${serverList.length} suitable servers and updated JSONBin.`);
 
     } catch (error) {
         console.error("An error occurred during the fetch cycle:", error);
@@ -39,7 +41,7 @@ export default async function handler(request, response) {
 }
 
 
-// --- HELPER FUNCTIONS (Mostly unchanged) ---
+// --- HELPER FUNCTIONS (Unchanged) ---
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -68,15 +70,16 @@ async function fetchAllServers() {
         }
         try {
             const url = urlTemplate + cursor;
+            console.log(`Fetching server page... (Cursor: ${cursor || 'none'})`);
             const res = await apiFetch(url);
 
             if (res.status === 429) {
                 retryCount++;
-                console.warn(`Rate limited. Waiting 15s...`);
+                console.warn(`Rate limited. Waiting 15s... (Retry ${retryCount}/${MAX_RETRIES})`);
                 await sleep(15000);
                 continue;
             }
-            if (!res.ok) throw new Error(`API returned status ${res.status}`);
+            if (!res.ok) throw new Error(`Roblox API returned status ${res.status}`);
             
             retryCount = 0;
             const pageData = await res.json();
@@ -93,8 +96,10 @@ async function fetchAllServers() {
         } catch (error) {
             console.error("Error during server page fetch:", error.message);
             retryCount++;
+            await sleep(2000); // Wait 2s before retrying after a generic error
         }
     }
+    console.log(`Finished fetching all server pages. Found ${allServers.length} total suitable servers.`);
     return allServers;
 }
 
@@ -102,6 +107,7 @@ async function updateJsonBin(data) {
     const url = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
     const jsonData = JSON.stringify(data);
 
+    console.log(`Updating JSONBin bin ${JSONBIN_BIN_ID}...`);
     const res = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -113,7 +119,7 @@ async function updateJsonBin(data) {
 
     if (!res.ok) {
         const errorText = await res.text();
-        throw new Error(`JSONBin API Error: ${errorText}`);
+        throw new Error(`JSONBin API Error: ${res.status} - ${errorText}`);
     }
     console.log(`Successfully updated JSONBin bin: ${JSONBIN_BIN_ID}`);
 }

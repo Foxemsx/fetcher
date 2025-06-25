@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    font-size: 1.1rem;
+    color: #a0a0a0;
+    margin-bottom: 2rem;
+}
+
+#start-button {
+    background: linear-gradient(90deg, #4a90e2, #50e3c2);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#start-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+#start-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.console-wrapper {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    text-align: left;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#console-header {
+    background-color: #2a2a2a;
+    padding: 8px 15px;
+    border-bottom: 1px solid #333;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+    color: #b0b0b0;
+    font-size: 0.9rem;
+}
+
+#console-output {
+    padding: 15px;
+    flex-grow: 1;
+    overflow-y: auto;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+#console-output p {
+    margin: 0 0 5px 0;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #dcdcdc; /* Default info color */
+}
+
+.log-info { color: #87ceeb; }
+.log-success { color: #32cd32; }
+.log-error { color: #ff6b6b; }
+
+/* Custom scrollbar for a better look */
+#console-output::-webkit-scrollbar {
+  width: 8px;
+}
+#console-output::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+#console-output::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}

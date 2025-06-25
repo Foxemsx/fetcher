@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Server Fetcher</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Roblox Server Fetch Control Panel</h1>
+        <p>Manually trigger the server fetch process. This runs the same function as the scheduled cron job.</p>
+        
+        <button id="start-button">Start Fetch Cycle</button>
+        
+        <div class="console-wrapper">
+            <div id="console-header">
+                <span>CONSOLE OUTPUT</span>
+            </div>
+            <div id="console-output">
+                <p class="log-info">Waiting for process to start...</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
